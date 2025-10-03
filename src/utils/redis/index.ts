@@ -2,9 +2,9 @@ import Redis from "ioredis"
 import { env } from "../constant"
 import logger from "../logger/index"
 
-const host = env.redisHost
-const port = env.redisPort
-const password = env.redisPassword
+const host = env.redis.host
+const port = env.redis.port
+const password = env.redis.password
 
 
 const redis = new Redis({
@@ -52,7 +52,6 @@ const remove = async (key: string) => {
 }
 
 const isExist = async (key: string) => {
-
     try {
         const result = await redis.exists(key);
         return result

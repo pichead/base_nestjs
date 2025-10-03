@@ -1,14 +1,18 @@
-import * as bcrypt from 'bcrypt';
-// import * as bcrypt from 'bcryptjs';
+import * as argon2 from 'argon2';
 
 import { env } from '../constant';
+import logger from '../logger';
 
 const hashPassword = async (password: string): Promise<string | null> => {
   try {
-    return await bcrypt.hash(password, env.saltOrRounds);
+    return await argon2.hash(password, {
+      type: argon2.argon2id,
+      memoryCost: 2 ** 16, // 64 MB
+      timeCost: 3,
+      parallelism: 1,
+    });
   } catch (error) {
-    console.log('error bcrypt hash');
-    console.log(error);
+    logger.error('Error hashing password', { error });
     return null;
   }
 };
@@ -18,10 +22,9 @@ const comparePassword = async (
   hashedPassword: string,
 ): Promise<boolean | null> => {
   try {
-    return await bcrypt.compare(password, hashedPassword);
+    return await argon2.verify(hashedPassword, password);
   } catch (error) {
-    console.log('error bcrypt compare');
-    console.log(error);
+    logger.error('Error comparing password', { error });
     return null;
   }
 };

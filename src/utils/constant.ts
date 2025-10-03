@@ -11,9 +11,6 @@ export const env = {
   appNameTH: process.env.APP_NAME_TH ? process.env.APP_NAME_TH : 'เว็บไซต์',
   appNameEN: process.env.APP_NAME_EN ? process.env.App_NAME_EN : 'Website',
 
-  saltOrRounds: process.env.BCRYPT_SALTORROUNDS
-    ? parseInt(process.env.BCRYPT_SALTORROUNDS)
-    : 10,
   jwtEmailKey: process.env.JWT_EMAIL_SECRET_KEY || "emailKey",
   jwtAccessKey: process.env.JWT_ACCESS_SECRET_KEY || "accessKey",
   jwtAccessExpTime: process.env.JWT_ACCESS_EXPIRATION_TIME
@@ -39,7 +36,10 @@ export const env = {
     ? parseInt(process.env.TIME_EXP_CONFIRM_EMAIL)
     : 900,
 
+  // LINE Configuration
   lineNotiAccessToken: process.env.LINE_NOTI_ACCESS_TOKEN,
+  lineBotChannelAccessToken: process.env.LINE_BOT_CHANNEL_ACCESS_TOKEN,
+  lineBotChannelSecret: process.env.LINE_BOT_CHANNEL_SECRET,
 
   firebaseApiKey: process.env.FIREBASE_API_KEY,
   firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -65,7 +65,18 @@ export const env = {
   smsApiKey: process.env.SMS_API_KEY || "",
   smsApiSecret: process.env.SMS_API_SECRET || "",
 
-  redisHost: process.env.REDIS_HOST || "",
-  redisPort: process.env.REDIS_PORT || "",
-  redisPassword: process.env.REDIS_PASSWORD || "",
+  redis: {
+    host: process.env.REDIS_HOST || "",
+    port: process.env.REDIS_PORT || "",
+    password: process.env.REDIS_PASSWORD || "",
+  },
+
+  captcha: {
+    cloudflare: {
+      turnstileSecret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY || ""
+    },
+    google: {
+      googleCaptchaV3Secret: process.env.GOOGLE_CAPTCHA_SECRET_KEY || ""
+    }
+  }
 };

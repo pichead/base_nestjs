@@ -1,6 +1,5 @@
 import winston from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-// console.log("DEBUG WINSTON:", winston); // <--- เพิ่มบรรทัดนี้
 
 const logger = winston.createLogger({
   level: "info",

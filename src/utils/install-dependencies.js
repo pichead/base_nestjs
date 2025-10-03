@@ -22,6 +22,7 @@ const modules = [
   'dayjs',
   'redis',
   'ioredis',
+  'argon2',
 
   // @types สำหรับ typescript
 
@@ -29,6 +30,7 @@ const modules = [
   '@types/jsonwebtoken',
   '@types/uuid',
   '@types/node',
+  '@types/argon2'
 ];
 
 const { exec } = require('child_process');

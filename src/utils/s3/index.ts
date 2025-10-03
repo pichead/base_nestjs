@@ -9,6 +9,7 @@ import { extname } from 'path';
 import { env } from 'src/utils/constant';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { TIME } from 'src/utils/time';
+import logger from '../logger';
 
 const AWS_S3_BUCKET = env.s3BucketName;
 const AWS_S3_REGION = env.s3BucketRegion;
@@ -55,7 +56,7 @@ const save = async (file: Express.Multer.File, folder: string) => {
       return null;
     }
   } catch (error) {
-    console.error('Error uploading file: ', error);
+    logger.error('Error uploading file to S3', { error, folder, fileName: originalname });
     return null;
   }
 };
@@ -73,7 +74,7 @@ const remove = async (filename: string, folder: string) => {
 
     return { removeFile };
   } catch (error) {
-    console.error('Error remove file: ', error);
+    logger.error('Error removing file from S3', { error, folder, filename });
     return null;
   }
 };
@@ -91,7 +92,7 @@ const getSigned = async (url: string) => {
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 ชั่วโมง
     return url;
   } catch (error) {
-    console.error('Error generating signed URL: ', error);
+    logger.error('Error generating signed URL', { error, key });
     return null;
   }
 };

@@ -2,6 +2,7 @@ import * as nodemailer from 'nodemailer';
 
 import { env } from '../constant';
 import { HTML } from 'src/utils/html';
+import logger from '../logger';
 
 interface Message {
   from: string;
@@ -46,7 +47,7 @@ const sendMailChangePassword = async (
     });
 
     const linkReset = url + '/' + token;
-    console.log('linkReset : ', linkReset);
+    logger.info('Password reset link generated', { linkReset, to });
     const message = {
       from: `"no-reply" <${senderEmail}>`,
       to,
@@ -57,8 +58,7 @@ const sendMailChangePassword = async (
 
     return await sendMail(transporter, message);
   } catch (error) {
-    console.log('Error at send mail reset password.....');
-    console.log(error);
+    logger.error('Error sending password reset email', { error, to });
     return null;
   }
 };
@@ -81,7 +81,7 @@ const sendMailConfirmEmail = async (to: string, url: string) => {
     });
 
     const linkMail = url;
-    console.log('linkMail : ', linkMail);
+    logger.info('Email confirmation link generated', { linkMail, to });
     const message = {
       from: `"no-reply" <${senderEmail}>`,
       to,
@@ -92,8 +92,7 @@ const sendMailConfirmEmail = async (to: string, url: string) => {
 
     return await sendMail(transporter, message);
   } catch (error) {
-    console.log('Error at send mail reset password.....');
-    console.log(error);
+    logger.error('Error sending email confirmation', { error, to });
     return null;
   }
 };
@@ -129,8 +128,7 @@ const sendMailAds = async (
 
     return await sendMail(transporter, message);
   } catch (error) {
-    console.log('Error at send mail ads');
-    console.log(error);
+    logger.error('Error sending ads email', { error, to, subject: subjectName });
     return null;
   }
 };
@@ -166,8 +164,7 @@ const sendMailSupport = async (
 
     return await sendMail(transporter, message);
   } catch (error) {
-    console.log('Error at send mail support.....');
-    console.log(error);
+    logger.error('Error sending support email', { error, to, subject: subjectName });
     return null;
   }
 };

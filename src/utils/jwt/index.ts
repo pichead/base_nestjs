@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { env } from '../constant';
 import { TIME } from '../time';
+import logger from '../logger';
 
 const exposeAccess = async (
   token: string,
@@ -10,15 +11,13 @@ const exposeAccess = async (
       token,
       env.jwtAccessKey,
     )) as jwt.JwtPayload;
-    console.log(objData);
-
     if (objData && objData.iat! + env.jwtAccessExpTime > TIME.timestampNow()) {
       return objData;
     } else {
       return null;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -31,11 +30,9 @@ const generateAccessKey = async (payload: {
       { ...payload, tokenType: 'access' },
       env.jwtAccessKey,
     );
-    console.log(env.jwtAccessKey);
     return jwtToken || null;
   } catch (error) {
-    console.log('error at gen access token');
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -55,7 +52,7 @@ const exposeRefresh = async (
       return null;
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -69,8 +66,7 @@ const generateRefreshKey = async (payload: {
     );
     return jwtToken || null;
   } catch (error) {
-    console.log('error at gen refresh token');
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -83,8 +79,7 @@ const changePassword = async (email: string) => {
     );
     return jwtToken || null;
   } catch (error) {
-    console.log('error at gen refresh token');
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -106,8 +101,7 @@ const exposeChangePassword = async (token: string) => {
       return null;
     }
   } catch (error) {
-    console.log('error at expose reset password');
-    console.log(error);
+    logger.error(error);
     return null;
   }
 };
@@ -120,8 +114,7 @@ const confirmEmail = async (email: string) => {
     );
     return jwtToken || null;
   } catch (error) {
-    console.log('error at gen refresh token');
-    console.error(error);
+    logger.error(error);
     return null;
   }
 };
@@ -143,8 +136,7 @@ const exposeConfirmEmail = async (token: string) => {
       return null;
     }
   } catch (error) {
-    console.log('error at expose reset password');
-    console.log(error);
+    logger.error(error);
     return null;
   }
 };
