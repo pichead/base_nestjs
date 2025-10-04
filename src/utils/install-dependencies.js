@@ -23,6 +23,7 @@ const modules = [
   'redis',
   'ioredis',
   'argon2',
+  '@google/generative-ai',
 
   // @types สำหรับ typescript
 
